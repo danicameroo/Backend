@@ -1,42 +1,49 @@
-class Usuario{
-    constructor(nombre, apellido, libros, mascotas) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.libros = libros;
-        this.mascotas = mascotas;
+  class Usuario{
+    
+        constructor(nombre, apellido, libros, mascotas) {
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.libros = libros;
+            this.mascotas = mascotas;
+        }
+    
+    
+        getFullName(){
+            console.log(`El nombre del usuario es ${this.nombre} ${this.apellido}`) 
+        }
+    
+        addMascota(nuevaMascota){
+            return this.mascotas.push(nuevaMascota)
+        }
+    
+        countMascota(){
+            return this.mascotas.length
+        }
+    
+        addBook(nuevoLibro){
+            return this.libros.push(nuevoLibro);
+        }
+    
+        getBookNames(){
+            let nuevoArray = []
+            
+            this.libros.forEach(libros => {
+                let nombres = libros.nombre
+                nuevoArray.push(nombres)
+                
+            });
+
+            console.log(nuevoArray)
+
+            
+        }
     }
+    
+    let usuario = new Usuario('Gerardo', 'Hernandez', [{nombre: 'Desde mi jardin', autor: 'Jerzy kosinski'}, {nombre: 'El naufrago', autor: 'Gabriel Garcia Marquez'}, {nombre: 'Yo soy Dios', autor: 'Giorgio Faletti'}], ['Balu', 'Maemi'])
 
-    getFullName(){
-        console.log(`El nombre del usuario es ${this.nombre} ${this.apellido}`) 
-    }
-
-    addMascota(){
-        const nueva = this.mascotas.push('miel')
-        console.log(nueva)
-        console.log(this.mascotas)
-    }
-
-    countMascota(){
-        console.log(this.mascotas.length)
-    }
-
-    addBook(){
-        const libro = this.libros.push('Yo mato');
-        const autor = this.libros.push('Giorgio Faletti');
-        console.log(libro)
-        console.log(autor)
-        console.log(this.libros)
-
-    }
-
-    getBookNames(){
-        console.log(this.libros)
-    }
-}
-
-let usuario = new Usuario('Gerardo', 'Hernandez', ['Desde mi jardin', 'El naufrago', 'Yo soy Dios'], ['Balu', 'Maemi'])
-
-
-
-let ver= usuario.getBookNames();
-console.log(ver)
+    let nuevaMascota = 'miel'
+    let nuevoLibro = {nombre: 'Yo mato', autor: 'Giorgio Faletti'}
+    
+    
+    let ver= usuario.getBookNames();
+    console.log(ver)
