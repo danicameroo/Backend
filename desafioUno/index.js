@@ -9,9 +9,10 @@
     
     
         getFullName(){
-            console.log(`El nombre del usuario es ${this.nombre} ${this.apellido}`) 
+            return `El nombre del usuario es ${this.nombre} ${this.apellido}`
         }
-    
+
+        static nuevaMascota = 'miel'
         addMascota(nuevaMascota){
             return this.mascotas.push(nuevaMascota)
         }
@@ -19,6 +20,8 @@
         countMascota(){
             return this.mascotas.length
         }
+
+        static nuevoLibro = {nombre: 'Yo mato', autor: 'Giorgio Faletti'}
     
         addBook(nuevoLibro){
             return this.libros.push(nuevoLibro);
@@ -32,18 +35,11 @@
                 nuevoArray.push(nombres)
                 
             });
-
-            console.log(nuevoArray)
-
-            
         }
     }
     
     let usuario = new Usuario('Gerardo', 'Hernandez', [{nombre: 'Desde mi jardin', autor: 'Jerzy kosinski'}, {nombre: 'El naufrago', autor: 'Gabriel Garcia Marquez'}, {nombre: 'Yo soy Dios', autor: 'Giorgio Faletti'}], ['Balu', 'Maemi'])
-
-    let nuevaMascota = 'miel'
-    let nuevoLibro = {nombre: 'Yo mato', autor: 'Giorgio Faletti'}
     
     
-    let ver= usuario.getBookNames();
-    console.log(ver)
+    
+console.log(usuario.addMascota())
