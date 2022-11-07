@@ -1,86 +1,65 @@
-const fs = require ('fs');
+const { promises: fs } = require('fs')
 
-class Contenedor{
-    constructor(name) {
-        this.name = name;
-    }    
+class Contenedor {
 
-    async save(){
-        await fs.promises.readFile(`./${this.name}`, 'utf-8')
-        .then(data => {
-            let id = 0
-            let dataObj = null
-            if(data.length == 0){
-                id = 1
-            }else{
-                dataObj = JSON.parse(data)
-                id = dataObj[dataObj.length - 1].id + 1
-            }
-            const obj = {id: id}
-    
-            fs.appendFileSync(`./${this.name}`, JSON.stringify( obj, null, 2))
-            .then(() => {
-                return 'ok'
-            })
-            .catch(err => {
-                return err
-            })
-        })
-        .catch(err => {
-            return err
-        })
+  constructor(ruta) {
+    this.ruta = ruta;
+  }
 
+  async save(obj) {
+    const objs = await this.getAll()
 
-        /*try{
-            let data = await fs.promises.readFile(`./${this.name}`, 'utf-8')
-            if( data == 0 ){
-                let id = 1
-                let dato = fs.writeFileSync(`./${this.name}`, JSON.stringify( id, null, 2))
-                console.log(dato)
-            }else{
-                let data = fs.readFileSync( `./${this.name}`, 'utf-8' ) 
-                JSON.parse(data)
-                let id = data.id + 1
-                let dato = fs.appendFileSync(`./${this.name}`, JSON.stringify(id, null, 2))
-                console.log(dato)
-            }
-        } catch(err){
-            console.log(err)
-        }*/
+    let newId
+    if (objs.length == 0) {
+      newId = 1
+    } else {
+      newId = objs[objs.length - 1].id + 1
     }
 
-    async getAll(){
-        let producto = [];
-        try{
-            const cont = await fs.promises.writeFile(`./${this.name}`, JSON.stringify(producto, null, 2))
-            const data = JSON.parse(cont);
-            return data
-        }catch(err){
-            console.log(err)
-        }
+    const newObj = { ...obj, id: newId }
+    objs.push(newObj)
+
+    try {
+      await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2))
+      return newId
+    } catch (error) {
+      throw new Error(`Error al guardar: ${error}`)
+    }
+  }
+
+  async getById(id) {
+    const objs = await this.getAll()
+    const buscado = objs.find(o => o.id == id)
+    return buscado
+  }
+
+  async getAll() {
+    try {
+      const objs = await fs.readFile(this.ruta, 'utf-8')
+      return JSON.parse(objs)
+    } catch (error) {
+      return []
+    }
+  }
+
+  async deleteById(id) {
+    const objs = await this.getAll()
+    const index = objs.findIndex(o => o.id == id)
+    if (index == -1) {
+      throw new Error(`Error al borrar: no se encontró el id ${id}`)
     }
 
-    async deleteAll(){
-        try{
-            const cont = await fs.promises.writeFile(`./${this.name}`, '[\n\n]')
-            console.log('eliminado')
-        }catch(err){
-            console.log(err)
-        }
+    objs.splice(index, 1)
+    try {
+      await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2))
+    } catch (error) {
+      throw new Error(`Error al borrar: ${error}`)
     }
+  }
 
-    /*leer(){
-        try{
-            const data = fs.readFileSync(`./${this.name}`, "utf-8")
-            console.log(data)
-        }catch(err){
-            console.log(err)
-        }
-    }*/
+  async deleteAll() {
+    await fs.writeFile(this.ruta, JSON.stringify([], null, 2))
+  }
 }
 
-let url = new Contenedor("productos.txt")
-
-url.save().then(id => console.log(id))
-
-
+module.exports = Contenedor
