@@ -1,0 +1,33 @@
+div(class='container.mt-3')
+    div(class='jumbotron')     
+        h1(style="color:blue;") Add product
+        br
+        form(action="/productos", method="post")
+            div(class="form-group")
+            label(for="nombre")
+                b Nombre
+            input#nombre.form-control(type="text", name="nombre")
+            div(class="form-group")
+            label(for="precio")
+                b Precio
+            input#precio.form-control(type="number", name="precio")
+            div(class="form-group")
+            label(for="foto")
+                b Foto
+            input#foto.form-control(type="text", name="foto")
+            button.btn.btn-success.mt-3.mb-5 Send
+        h2(style="color:crimson;") Historial
+        if productos.length != 0
+            div(class="table-responsive")
+                table.table.table-dark
+                    tr(style="color: yellow;")
+                        th Nombre
+                        th Precio
+                        th Foto
+                    each val in productos
+                        tr
+                            td= val.nombre
+                            td= val.precio
+                            td= val.foto
+        else
+            h3(class="alert alert-danger") No products
