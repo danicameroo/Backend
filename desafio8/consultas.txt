@@ -1,0 +1,42 @@
+1- mkdir ecommerce
+2- mongod --dbpath ./ecommerce
+3- mongosh
+4- use ecommerce
+5- db.mensajes.insertMany([
+    {author: "Dario", text: "los temas estan separados en tres bloques"},
+    {author: "Luis", text: "Si"},
+    {author: "Juan", text: "hola"},
+    {author: "Pedro", text: "como estan?"},
+    {author: "Maria", text: "Mensaje"},
+    {author: "Rosa", text: "Todos los derechos reservados"},
+    {author: "Esteban", text: "Aplica el update"},
+    {author: "Estefania", text: "Busqueda"},
+    {author: "Ronal", text: "Instala la otra version"},
+    {author: "Eva", text: "Obten nuesvas caracteristicas"},
+    ])
+6- db.mensajes.find()
+7- db.mensajes.countDocuments()
+8- db.productos.insertMany([
+    {nombre: "Leche", desc: "lacteo", codigo: "ffc", foto: "leche.png", precio: 120, stock: true},
+    {nombre: "Huevo", desc: "lacteo", codigo: "dfd", foto: "huevo.png", precio: 400, stock: true},
+    {nombre: "Harina", desc: "Trigo", codigo: "fer", foto: "harina.png", precio: 500, stock: true},
+    {nombre: "Chocolate", desc: "Dulce", codigo: "kyu", foto: "choco.png", precio: 140, stock: true},
+    {nombre: "Mantequilla", desc: "Grasa", codigo: "rhy", foto: "mante.png", precio: 360, stock: true},
+    {nombre: "Yogurt", desc: "lacteo", codigo: "trt", foto: "yogurt.png", precio: 200, stock: true},
+    {nombre: "Carne", desc: "Animal", codigo: "ttj", foto: "carne.png", precio: 300, stock: true},
+    {nombre: "Pollo", desc: "Animal", codigo: "jjk", foto: "pollo.png", precio: 200, stock: true},
+    {nombre: "Helado", desc: "Dulce", codigo: "erg", foto: "helado.png", precio: 150, stock: true},
+    {nombre: "Pan", desc: "Trigo", codigo: "ddx", foto: "pan.png", precio: 100, stock: true},
+    ])
+9- db.productos.find()
+10- db.productos.countDocuments()
+11- db.productos.insertOne({nombre: "Caramelo", desc: "Dulce", codigo: "jdk", foto: "caramelo.png", precio: 350, stock: true})
+12- db.productos.find({"precio": {$lt: 200}})  ///   menor a los 200
+13- db.productos.find({$and: [{"precio": {$gte: 200}},{"precio": {$lte: 500}}]})  ///   entre 200 y 500
+14- db.productos.find({"precio": {$gt: 400}})  ///   mayores a los 400
+15- db.productos.find().sort({precio: 1}).limit(1).skip(2)
+16- db.productos.updateMany({stock: true}, {$set: {stock: 100}})
+17- db.productos.updateMany({"precio": {$gt: 400}}, {$set: {stock: 0}})
+18- db.productos.deleteMany({"precio": {$lt: 200}})
+19- db.createUser({user: "lector", pwd: "123", roles: [{role: "read", db: "blog"}]})
+20- mongosh -u lector -p 123
