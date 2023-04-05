@@ -9,7 +9,7 @@ class ControladorProductos {
     obtener = async (req, res) => {
         try {
             let productos = await this.serviceProductos.obtener()
-            res.json(productos)
+            return productos
         } catch(error) {
             console.log(error);
         }
@@ -21,6 +21,7 @@ class ControladorProductos {
 
             let productoGuardado = await this.serviceProductos.guardar(productos)
             res.json(productoGuardado)
+            return productoGuardado
         } catch(error) {
             console.log(error);
         }

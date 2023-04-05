@@ -1,6 +1,6 @@
 import express, { Router } from 'express'
 import config from './config.js'
-import router from './router/productos.js'
+import GraphqlController from './controladores/graphControllers.js'
 import cors from 'cors'
 
 const app = express()
@@ -17,8 +17,7 @@ if(config.NODE_ENV == 'development') {
 app.use(express.static('public'))
 app.use(express.json())
 
-const productosRouter = new router()
-app.use('/productos', productosRouter.start())
+app.use('/graphql', new GraphqlController())
 
 const PORT = config.PORT
 app.listen(PORT, () => {
